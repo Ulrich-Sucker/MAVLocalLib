@@ -6,7 +6,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define SW_Version "00.01.002"
+#define MAVLocalLib_hpp_Version "00.01.002"
 // =====================================================================================
 #pragma endregion
 
@@ -16,8 +16,8 @@
 #include <string>
 
 // ---- include global libs ------------------------------------------------------------ */
-#include "..\lib\ mavlink\c_library_v2\common\mavlink.h"
-#include "..\lib\ mavlink\c_library_v2\common\common.h"
+#include "..\c_library_v2\common\mavlink.h"
+#include "..\c_library_v2\common\common.h"
 
 struct ApParameter
 {
@@ -36,6 +36,16 @@ struct ApParameter
 /* =========================================================================== */
 mavlink_message_t mav_msg;			// DIE globale Variable mit der MAVLink-Nachricht
 mavlink_status_t mav_msg_status;	// DER MAVLINK-Status
+
+
+struct mavMessage {
+	bool printShort = false;
+	bool printLong = false;
+	bool used = false;
+};
+
+#define mavMsgCnt 253
+mavMessage mavMessages[mavMsgCnt];
 
 /* =========================================================================== */
 //      Remote MAVLink Device (Drone)
