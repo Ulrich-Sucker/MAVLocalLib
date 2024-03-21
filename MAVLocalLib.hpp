@@ -16,8 +16,8 @@
 #include <string>
 
 // ---- include global libs ------------------------------------------------------------ */
-#include "..\lib\ mavlink\c_library_v2\common\mavlink.h"
-#include "..\lib\ mavlink\c_library_v2\common\common.h"
+#include "..\c_library_v2\common\mavlink.h"
+#include "..\c_library_v2\common\common.h"
 
 struct ApParameter
 {
