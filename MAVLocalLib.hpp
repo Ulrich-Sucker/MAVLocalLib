@@ -6,7 +6,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.01.002"
+#define MAVLocalLib_hpp_Version "00.01.004"
 // =====================================================================================
 #pragma endregion
 
@@ -37,6 +37,8 @@ struct ApParameter
 mavlink_message_t mav_msg;			// DIE globale Variable mit der MAVLink-Nachricht
 mavlink_status_t mav_msg_status;	// DER MAVLINK-Status
 
+unsigned long last_heartbeat     = 0;
+unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
 
 struct mavMessage {
 	bool printShort = false;
@@ -44,7 +46,7 @@ struct mavMessage {
 	bool used = false;
 };
 
-#define mavMsgCnt 253
+#define mavMsgCnt 285
 mavMessage mavMessages[mavMsgCnt];
 
 /* =========================================================================== */
@@ -54,8 +56,24 @@ uint8_t target_system    = 1;
 uint8_t target_component = 1;
 
 
+/* =========================================================================== */
+//      Funktion Prototyps
+/* =========================================================================== */
+
+/*
+bool seralReceive()
+serialSend()
+udpReceive()
+udpSend()
+mavPrint()
+*/
+void mavPrint(std::string text);
+void mavPrint(char* text);
+
+void mavPrintLn(std::string text);
+void mavPrintLn(char* text);
+
+void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng);
 
 
-unsigned long last_heartbeat     = 0;
-unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
 
