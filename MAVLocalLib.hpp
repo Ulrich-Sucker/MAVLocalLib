@@ -6,7 +6,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.01.002"
+#define MAVLocalLib_hpp_Version "00.01.003"
 // =====================================================================================
 #pragma endregion
 
@@ -37,6 +37,8 @@ struct ApParameter
 mavlink_message_t mav_msg;			// DIE globale Variable mit der MAVLink-Nachricht
 mavlink_status_t mav_msg_status;	// DER MAVLINK-Status
 
+unsigned long last_heartbeat     = 0;
+unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
 
 struct mavMessage {
 	bool printShort = false;
@@ -56,6 +58,5 @@ uint8_t target_component = 1;
 
 
 
-unsigned long last_heartbeat     = 0;
-unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
+
 
