@@ -6,7 +6,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.01.004"
+#define MAVLocalLib_hpp_Version "00.01.005"
 // =====================================================================================
 #pragma endregion
 
@@ -69,9 +69,11 @@ mavPrint()
 */
 void mavPrint(std::string text);
 void mavPrint(char* text);
+void mavPrint(int text);
 
 void mavPrintLn(std::string text);
 void mavPrintLn(char* text);
+void mavPrintLn(int text);
 
 void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng);
 

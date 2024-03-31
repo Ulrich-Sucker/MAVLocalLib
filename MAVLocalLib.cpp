@@ -6,7 +6,7 @@
 // 	Version 00.00 - 2024-02-27
 //   - Base
 // -------------------------------------------------------------------------------------
-#define SW_Version "00.01.003"
+#define MAVLocalLib_CPP_Version "00.01.004"
 // =====================================================================================
 #pragma endregion
 
@@ -21,12 +21,19 @@ void mavPrint(std::string text){
 void mavPrint(char* text){
 	std::cout << text;
 };
+void mavPrint(int text){
+	std::cout << text;
+};
 
 // ==== FUNCTION: mavPrintLn =============================================================
 void mavPrintLn(std::string text){
 	std::cout << text <<std::endl;
 };
 void mavPrintLn(char* text){
+	std::cout << text <<std::endl;
+};
+
+void mavPrintLn(int  text){
 	std::cout << text <<std::endl;
 };
 
@@ -133,36 +140,61 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
                 mavPrintLn("Loiter to QLand");
               break;
               default:
-                mavPrint("Mode "); //mavPrint(hb.custom_mode); mavPrintLn(" not known");
+                mavPrint("Mode "); 
+                //mavPrint(hb.custom_mode); 
+                //mavPrintLn(" not known");
               break;
             }
-            mavPrint("type         : "); //mavPrintLn(hb.type);
-            mavPrint("autopilot    : "); //mavPrintLn(hb.autopilot);
-            mavPrint("system_status: "); //mavPrintLn(hb.system_status);
+            mavPrint("type         : "); mavPrintLn(hb.type);
+            mavPrint("autopilot    : "); mavPrintLn(hb.autopilot);
+            mavPrint("system_status: "); mavPrintLn(hb.system_status);
+            //mavPrintLn("");
           	
 		}
-		//std::cout << "#000:  Hard beat" << std::endl;
-		//rcvHeardbeat();
 		break;
 		
 	// =====  #1: SYS_STATUS ===========================================
-	case MAVLINK_MSG_ID_SYSTEM_TIME:  // #2 MAVLINK_MSG_ID_SYSTEM_TIME  
-		std::cout << "#001:  SYS_STATUS" << std::endl;
+	case MAVLINK_MSG_ID_SYSTEM_TIME:  // #2 MAVLINK_MSG_ID_SYSTEM_TIME
+		if (prntSrt) {
+			mavPrintLn("#001:  SYS_STATUS");
+		}
+		if (prntLng) {
+            mavPrintLn("\n#001:  SYS_STATUS");
+		}
+		//std::cout << "#001:  SYS_STATUS" << std::endl;
 		break;
 		
 	// =====  #2 MAVLINK_MSG_ID_SYSTEM_TIME   ==========================
 	case MAVLINK_MSG_ID_SYS_STATUS:  
-		std::cout << "#002:  MAVLINK_MSG_ID_SYSTEM_TIME  " << std::endl;
+		if (prntSrt) {
+			mavPrintLn("#002:  MAVLINK_MSG_ID_SYSTEM_TIME");
+		}
+		if (prntLng) {
+            mavPrintLn("\n#002:  MAVLINK_MSG_ID_SYSTEM_TIME");
+		}		
+		//std::cout << "#002:  MAVLINK_MSG_ID_SYSTEM_TIME  " << std::endl;
 		break;
 		
 	// =====  #21 MAVLINK_MSG_ID_PARAM_REQUEST_LIST ====================
 	case MAVLINK_MSG_ID_PARAM_REQUEST_LIST:
-		std::cout << "#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST" << std::endl;
+		if (prntSrt) {
+			mavPrintLn("#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST"");
+		}
+		if (prntLng) {
+            mavPrintLn("\n#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST"");
+		}		
+		//std::cout << "#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST" << std::endl;
 		break;
 		
 	// =====  #22: PARAM_VALUE =========================================
 	case MAVLINK_MSG_ID_PARAM_VALUE: 
-		std::cout << "#022:  Parameter Value" << std::endl;
+		if (prntSrt) {
+			mavPrintLn("#022:  Parameter Value");
+		}
+		if (prntLng) {
+            mavPrintLn("\n#022:  Parameter Value");
+		}
+		//std::cout << "#022:  Parameter Value" << std::endl;
 		mavlink_param_value_t param_value;
 		mavlink_msg_param_value_decode(&mav_msg, &param_value);
 		//mvPrintParameter(param_value);
@@ -170,136 +202,298 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 
 	// =====  #23 MAVLINK_MSG_ID_PARAM_SET =============================
 	case MAVLINK_MSG_ID_PARAM_SET:
+		if (prntSrt) {
+			mavPrintLn("#023:  MAVLINK_MSG_ID_PARAM_SET");
+		}
+		if (prntLng) {
+            mavPrintLn("\n#023:  MAVLINK_MSG_ID_PARAM_SET");
+		}		
 		std::cout << "#023:  MAVLINK_MSG_ID_PARAM_SET" << std::endl;
 		break;
 		
 	// =====  #24 MAVLINK_MSG_ID_GPS_RAW_INT ===========================
 	case MAVLINK_MSG_ID_GPS_RAW_INT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#024:  MAVLINK_MSG_ID_GPS_RAW_INT" << std::endl;
 		break;
 		
 	// =====  #27: RAW_IMU =============================================
 	case MAVLINK_MSG_ID_RAW_IMU:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#027:  RAW_IMU" << std::endl;
 		break;
 		
 	// =====  #29: MAVLINK_MSG_ID_SCALED_PRESSURE ======================
 	case MAVLINK_MSG_ID_SCALED_PRESSURE:  // 
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#029:  MAVLINK_MSG_ID_SCALED_PRESSURE" << std::endl;
 		break;
 		
 	// =====   #30: MAVLINK_MSG_ID_ATTITUDE ============================
 	case MAVLINK_MSG_ID_ATTITUDE:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#030:  MAVLINK_MSG_ID_ATTITUDE" << std::endl;
 		break;
 		
 	// =====  #32: MAVLINK_MSG_ID_LOCAL_POSITION_NED ===================
 	case MAVLINK_MSG_ID_LOCAL_POSITION_NED:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#032:  MAVLINK_MSG_ID_LOCAL_POSITION_NED" << std::endl;
 		break;
 
 	// =====  #33: MAVLINK_MSG_ID_GLOBAL_POSITION_INT ==================
 	case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#033:  MAVLINK_MSG_ID_GLOBAL_POSITION_INT" << std::endl;
 		break;
 		
 	// =====  #36: MAVLINK_MSG_ID_SERVO_OUTPUT_RAW ======================
 	case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW" << std::endl;
 		break;
 		
 	// =====  #42: MAVLINK_MSG_ID_MISSION_CURRENT ======================
 	case MAVLINK_MSG_ID_MISSION_CURRENT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#042:  MAVLINK_MSG_ID_MISSION_CURRENT" << std::endl;
 		break;						
 		
 	// =====  #49: MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN ====================
 	case MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN" << std::endl;
 		break;						
 		
 	// =====  #62: MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT ================
 	case MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT:  
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT" << std::endl;
 		break;						
 		
 	// =====  #65: MAVLINK_MSG_ID_RC_CHANNELS ==========================
 	case MAVLINK_MSG_ID_RC_CHANNELS:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#065:  MAVLINK_MSG_ID_RC_CHANNELS" << std::endl;
 		break;						
 		
 	// =====  #66: MAVLINK_MSG_ID_REQUEST_DATA_STREAM ==================
 	case MAVLINK_MSG_ID_REQUEST_DATA_STREAM :  
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM" << std::endl;
 		break;						
 		
 	// =====  #74: MAVLINK_MSG_ID_VFR_HUD ==============================
 	case MAVLINK_MSG_ID_VFR_HUD:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#074:  MAVLINK_MSG_ID_VFR_HUD" << std::endl;
 		break;						
 		
 	// =====  #76: MAVLINK_MSG_ID_COMMAND_LONG =========================
 	case MAVLINK_MSG_ID_COMMAND_LONG: 
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#076:  MAVLINK_MSG_ID_COMMAND_LONG" << std::endl;
 		break;						
 		
 	// =====  #87: MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT ===========
 	case MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#087:  MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT" << std::endl;
 		break;						
 		
 	// =====  #111: MAVLINK_MSG_ID_TIMESYNC ============================
 	case MAVLINK_MSG_ID_TIMESYNC:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#111:  MAVLINK_MSG_ID_TIMESYNC" << std::endl;
 		break;						
 		
 	// =====  #116: MAVLINK_MSG_ID_SCALED_IMU2 =========================
 	case MAVLINK_MSG_ID_SCALED_IMU2: 
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#116:  MAVLINK_MSG_ID_SCALED_IMU2" << std::endl;
 		break;						
 		
 	// =====  #125: MAVLINK_MSG_ID_POWER_STATUS ========================
 	case MAVLINK_MSG_ID_POWER_STATUS:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#125:  MAVLINK_MSG_ID_POWER_STATUS" << std::endl;
 		break;						
 		
 	// =====  #129: AVLINK_MSG_ID_SCALED_IMU3 ==========================
 	case MAVLINK_MSG_ID_SCALED_IMU3:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#129:  AVLINK_MSG_ID_SCALED_IMU3" << std::endl;
 		break;						
 		
 	// =====  #136: MAVLINK_MSG_ID_TERRAIN_REPORT ======================
 	case MAVLINK_MSG_ID_TERRAIN_REPORT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#136:  MAVLINK_MSG_ID_TERRAIN_REPORT" << std::endl;
 		break;						
 		
 	// =====  #137: MAVLINK_MSG_ID_SCALED_PRESSURE2 ====================
 	case MAVLINK_MSG_ID_SCALED_PRESSURE2: 
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2" << std::endl;
 		break;						
 		
 	// =====  #147: MAVLINK_MSG_ID_BATTERY_STATUS ======================
 	case MAVLINK_MSG_ID_BATTERY_STATUS:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#147:  MAVLINK_MSG_ID_BATTERY_STATUS" << std::endl;
 		break;						
 		
 	// =====  #241: MAVLINK_MSG_ID_VIBRATION ===========================
 	case MAVLINK_MSG_ID_VIBRATION: 
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#241:  MAVLINK_MSG_ID_VIBRATION" << std::endl;
 		break;						
 		
 	// =====  #242: MAVLINK_MSG_ID_HOME_POSITION =======================
 	case MAVLINK_MSG_ID_HOME_POSITION:  
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#242:  MAVLINK_MSG_ID_HOME_POSITION" << std::endl;
 		break;						
 		
 	// =====  #251: MAVLINK_MSG_ID_NAMED_VALUE_FLOAT ===================
 	case MAVLINK_MSG_ID_NAMED_VALUE_FLOAT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT" << std::endl;
 		break;						
 					
 	// =====  #253: MAVLINK_MSG_ID_STATUSTEXT ==========================
 	case MAVLINK_MSG_ID_STATUSTEXT:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#253   STATUSTEXT" << std::endl;
 		char mstxt[50];
 		mavlink_msg_statustext_get_text(&mav_msg, mstxt);
@@ -308,6 +502,12 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		
 	// =====  #285: AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS ========
 	case MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS:
+		if (prntSrt) {
+			mavPrintLn("###");
+		}
+		if (prntLng) {
+            mavPrintLn("\n###");
+		}		
 		std::cout << "#285:  AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS" << std::endl;
 		break;						
 					
