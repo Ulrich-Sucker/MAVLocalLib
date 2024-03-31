@@ -6,7 +6,7 @@
 // 	Version 00.00 - 2024-02-27
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.01.004"
+#define MAVLocalLib_CPP_Version "00.01.005"
 // =====================================================================================
 #pragma endregion
 
@@ -178,10 +178,10 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====  #21 MAVLINK_MSG_ID_PARAM_REQUEST_LIST ====================
 	case MAVLINK_MSG_ID_PARAM_REQUEST_LIST:
 		if (prntSrt) {
-			mavPrintLn("#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST"");
+			mavPrintLn("#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST");
 		}
 		if (prntLng) {
-            mavPrintLn("\n#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST"");
+            mavPrintLn("\n#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST");
 		}		
 		//std::cout << "#021:  MAVLINK_MSG_ID_PARAM_REQUEST_LIST" << std::endl;
 		break;
@@ -208,16 +208,16 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn("\n#023:  MAVLINK_MSG_ID_PARAM_SET");
 		}		
-		std::cout << "#023:  MAVLINK_MSG_ID_PARAM_SET" << std::endl;
+		//std::cout << "#023:  MAVLINK_MSG_ID_PARAM_SET" << std::endl;
 		break;
 		
 	// =====  #24 MAVLINK_MSG_ID_GPS_RAW_INT ===========================
 	case MAVLINK_MSG_ID_GPS_RAW_INT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#024:  MAVLINK_MSG_ID_GPS_RAW_INT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#024:  MAVLINK_MSG_ID_GPS_RAW_INT");
 		}		
 		std::cout << "#024:  MAVLINK_MSG_ID_GPS_RAW_INT" << std::endl;
 		break;
@@ -225,10 +225,10 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====  #27: RAW_IMU =============================================
 	case MAVLINK_MSG_ID_RAW_IMU:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#027:  RAW_IMU");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#027:  RAW_IMU");
 		}		
 		std::cout << "#027:  RAW_IMU" << std::endl;
 		break;
@@ -236,10 +236,10 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====  #29: MAVLINK_MSG_ID_SCALED_PRESSURE ======================
 	case MAVLINK_MSG_ID_SCALED_PRESSURE:  // 
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#029:  MAVLINK_MSG_ID_SCALED_PRESSURE");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#029:  MAVLINK_MSG_ID_SCALED_PRESSURE");
 		}		
 		std::cout << "#029:  MAVLINK_MSG_ID_SCALED_PRESSURE" << std::endl;
 		break;
@@ -247,10 +247,10 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====   #30: MAVLINK_MSG_ID_ATTITUDE ============================
 	case MAVLINK_MSG_ID_ATTITUDE:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#030:  MAVLINK_MSG_ID_ATTITUDE");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#030:  MAVLINK_MSG_ID_ATTITUDE");
 		}		
 		std::cout << "#030:  MAVLINK_MSG_ID_ATTITUDE" << std::endl;
 		break;
@@ -258,10 +258,10 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====  #32: MAVLINK_MSG_ID_LOCAL_POSITION_NED ===================
 	case MAVLINK_MSG_ID_LOCAL_POSITION_NED:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#032:  MAVLINK_MSG_ID_LOCAL_POSITION_NED");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#032:  MAVLINK_MSG_ID_LOCAL_POSITION_NED");
 		}		
 		std::cout << "#032:  MAVLINK_MSG_ID_LOCAL_POSITION_NED" << std::endl;
 		break;
@@ -269,252 +269,251 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 	// =====  #33: MAVLINK_MSG_ID_GLOBAL_POSITION_INT ==================
 	case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#033:  MAVLINK_MSG_ID_GLOBAL_POSITION_INT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
+            mavPrintLn("\n#033:  MAVLINK_MSG_ID_GLOBAL_POSITION_INT");
 		}		
-		std::cout << "#033:  MAVLINK_MSG_ID_GLOBAL_POSITION_INT" << std::endl;
+		//std::cout << "#033:  MAVLINK_MSG_ID_GLOBAL_POSITION_INT" << std::endl;
 		break;
-		
+
 	// =====  #36: MAVLINK_MSG_ID_SERVO_OUTPUT_RAW ======================
 	case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW" << std::endl;
+            mavPrintLn("\n#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW");
+		}
+		//std::cout << "#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW" << std::endl;
 		break;
 		
 	// =====  #42: MAVLINK_MSG_ID_MISSION_CURRENT ======================
 	case MAVLINK_MSG_ID_MISSION_CURRENT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#042:  MAVLINK_MSG_ID_MISSION_CURRENT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#042:  MAVLINK_MSG_ID_MISSION_CURRENT" << std::endl;
-		break;						
+            mavPrintLn("\n#042:  MAVLINK_MSG_ID_MISSION_CURRENT");
+		}
+		//std::cout << "#042:  MAVLINK_MSG_ID_MISSION_CURRENT" << std::endl;
+		break;
 		
 	// =====  #49: MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN ====================
 	case MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN" << std::endl;
-		break;						
+            mavPrintLn("\n#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN");
+		}
+		//std::cout << "#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN" << std::endl;
+		break;
 		
 	// =====  #62: MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT ================
-	case MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT:  
+	case MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT" << std::endl;
-		break;						
+            mavPrintLn("\n#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT");
+		}
+		//std::cout << "#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT" << std::endl;
+		break;
 		
 	// =====  #65: MAVLINK_MSG_ID_RC_CHANNELS ==========================
 	case MAVLINK_MSG_ID_RC_CHANNELS:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#065:  MAVLINK_MSG_ID_RC_CHANNELS");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#065:  MAVLINK_MSG_ID_RC_CHANNELS" << std::endl;
-		break;						
+            mavPrintLn("\n#065:  MAVLINK_MSG_ID_RC_CHANNELS");
+		}
+		//std::cout << "#065:  MAVLINK_MSG_ID_RC_CHANNELS" << std::endl;
+		break;
 		
 	// =====  #66: MAVLINK_MSG_ID_REQUEST_DATA_STREAM ==================
-	case MAVLINK_MSG_ID_REQUEST_DATA_STREAM :  
+	case MAVLINK_MSG_ID_REQUEST_DATA_STREAM :
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM" << std::endl;
-		break;						
+            mavPrintLn("\n#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM");
+		}
+		//std::cout << "#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM" << std::endl;
+		break;
 		
 	// =====  #74: MAVLINK_MSG_ID_VFR_HUD ==============================
 	case MAVLINK_MSG_ID_VFR_HUD:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#074:  MAVLINK_MSG_ID_VFR_HUD");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
+            mavPrintLn("\n#074:  MAVLINK_MSG_ID_VFR_HUD");
+		}
 		std::cout << "#074:  MAVLINK_MSG_ID_VFR_HUD" << std::endl;
-		break;						
+		break;
 		
 	// =====  #76: MAVLINK_MSG_ID_COMMAND_LONG =========================
-	case MAVLINK_MSG_ID_COMMAND_LONG: 
+	case MAVLINK_MSG_ID_COMMAND_LONG:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#076:  MAVLINK_MSG_ID_COMMAND_LONG");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#076:  MAVLINK_MSG_ID_COMMAND_LONG" << std::endl;
-		break;						
+            mavPrintLn("\n#076:  MAVLINK_MSG_ID_COMMAND_LONG");
+		}
+		//std::cout << "#076:  MAVLINK_MSG_ID_COMMAND_LONG" << std::endl;
+		break;
 		
 	// =====  #87: MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT ===========
 	case MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#087:  MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#087:  MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT" << std::endl;
-		break;						
+            mavPrintLn("\n#087:  MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT");
+		}
+		//std::cout << "#087:  MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT" << std::endl;
+		break;
 		
 	// =====  #111: MAVLINK_MSG_ID_TIMESYNC ============================
 	case MAVLINK_MSG_ID_TIMESYNC:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#111:  MAVLINK_MSG_ID_TIMESYNC");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#111:  MAVLINK_MSG_ID_TIMESYNC" << std::endl;
-		break;						
+            mavPrintLn("\n#111:  MAVLINK_MSG_ID_TIMESYNC");
+		}
+		//std::cout << "#111:  MAVLINK_MSG_ID_TIMESYNC" << std::endl;
+		break;
 		
 	// =====  #116: MAVLINK_MSG_ID_SCALED_IMU2 =========================
-	case MAVLINK_MSG_ID_SCALED_IMU2: 
+	case MAVLINK_MSG_ID_SCALED_IMU2:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#116:  MAVLINK_MSG_ID_SCALED_IMU2");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#116:  MAVLINK_MSG_ID_SCALED_IMU2" << std::endl;
-		break;						
+            mavPrintLn("\n#116:  MAVLINK_MSG_ID_SCALED_IMU2");
+		}
+		//std::cout << "#116:  MAVLINK_MSG_ID_SCALED_IMU2" << std::endl;
+		break;
 		
 	// =====  #125: MAVLINK_MSG_ID_POWER_STATUS ========================
 	case MAVLINK_MSG_ID_POWER_STATUS:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#125:  MAVLINK_MSG_ID_POWER_STATUS");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#125:  MAVLINK_MSG_ID_POWER_STATUS" << std::endl;
-		break;						
+            mavPrintLn("\n#125:  MAVLINK_MSG_ID_POWER_STATUS");
+		}
+		//std::cout << "#125:  MAVLINK_MSG_ID_POWER_STATUS" << std::endl;
+		break;
 		
 	// =====  #129: AVLINK_MSG_ID_SCALED_IMU3 ==========================
 	case MAVLINK_MSG_ID_SCALED_IMU3:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#129:  AVLINK_MSG_ID_SCALED_IMU3");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#129:  AVLINK_MSG_ID_SCALED_IMU3" << std::endl;
-		break;						
+            mavPrintLn("\n#129:  AVLINK_MSG_ID_SCALED_IMU3");
+		}
+		//std::cout << "#129:  AVLINK_MSG_ID_SCALED_IMU3" << std::endl;
+		break;
 		
 	// =====  #136: MAVLINK_MSG_ID_TERRAIN_REPORT ======================
 	case MAVLINK_MSG_ID_TERRAIN_REPORT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#136:  MAVLINK_MSG_ID_TERRAIN_REPORT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#136:  MAVLINK_MSG_ID_TERRAIN_REPORT" << std::endl;
-		break;						
+            mavPrintLn("\n#136:  MAVLINK_MSG_ID_TERRAIN_REPORT");
+		}
+		//std::cout << "#136:  MAVLINK_MSG_ID_TERRAIN_REPORT" << std::endl;
+		break;
 		
 	// =====  #137: MAVLINK_MSG_ID_SCALED_PRESSURE2 ====================
-	case MAVLINK_MSG_ID_SCALED_PRESSURE2: 
+	case MAVLINK_MSG_ID_SCALED_PRESSURE2:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2" << std::endl;
-		break;						
+            mavPrintLn("\n#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2");
+		}
+		//std::cout << "#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2" << std::endl;
+		break;
 		
 	// =====  #147: MAVLINK_MSG_ID_BATTERY_STATUS ======================
 	case MAVLINK_MSG_ID_BATTERY_STATUS:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#147:  MAVLINK_MSG_ID_BATTERY_STATUS");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#147:  MAVLINK_MSG_ID_BATTERY_STATUS" << std::endl;
-		break;						
+            mavPrintLn("\n#147:  MAVLINK_MSG_ID_BATTERY_STATUS");
+		}
+		//std::cout << "#147:  MAVLINK_MSG_ID_BATTERY_STATUS" << std::endl;
+		break;
 		
 	// =====  #241: MAVLINK_MSG_ID_VIBRATION ===========================
-	case MAVLINK_MSG_ID_VIBRATION: 
+	case MAVLINK_MSG_ID_VIBRATION:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#241:  MAVLINK_MSG_ID_VIBRATION");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#241:  MAVLINK_MSG_ID_VIBRATION" << std::endl;
-		break;						
+            mavPrintLn("\n#241:  MAVLINK_MSG_ID_VIBRATION");
+		}
+		//std::cout << "#241:  MAVLINK_MSG_ID_VIBRATION" << std::endl;
+		break;
 		
 	// =====  #242: MAVLINK_MSG_ID_HOME_POSITION =======================
-	case MAVLINK_MSG_ID_HOME_POSITION:  
+	case MAVLINK_MSG_ID_HOME_POSITION:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#242:  MAVLINK_MSG_ID_HOME_POSITION");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#242:  MAVLINK_MSG_ID_HOME_POSITION" << std::endl;
-		break;						
+            mavPrintLn("\n#242:  MAVLINK_MSG_ID_HOME_POSITION");
+		}
+		//std::cout << "#242:  MAVLINK_MSG_ID_HOME_POSITION" << std::endl;
+		break;
 		
 	// =====  #251: MAVLINK_MSG_ID_NAMED_VALUE_FLOAT ===================
 	case MAVLINK_MSG_ID_NAMED_VALUE_FLOAT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT" << std::endl;
-		break;						
-					
+            mavPrintLn("\n#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT");
+		}
+		//std::cout << "#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT" << std::endl;
+		break;
+		
 	// =====  #253: MAVLINK_MSG_ID_STATUSTEXT ==========================
 	case MAVLINK_MSG_ID_STATUSTEXT:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#253   STATUSTEXT");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#253   STATUSTEXT" << std::endl;
-		char mstxt[50];
-		mavlink_msg_statustext_get_text(&mav_msg, mstxt);
-		std::cout << mstxt << std::endl;
+            mavPrintLn("\n#253   STATUSTEXT");
+
+			char mstxt[50];
+			mavlink_msg_statustext_get_text(&mav_msg, mstxt);
+			mavPrintLn(mstxt);
+		}
+		//std::cout << "#253   STATUSTEXT" << std::endl;
 		break;
 		
 	// =====  #285: AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS ========
 	case MAVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS:
 		if (prntSrt) {
-			mavPrintLn("###");
+			mavPrintLn("#285:  AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS");
 		}
 		if (prntLng) {
-            mavPrintLn("\n###");
-		}		
-		std::cout << "#285:  AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS" << std::endl;
-		break;						
-					
+            mavPrintLn("\n#285:  AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS");
+		}
+		//std::cout << "#285:  AVLINK_MSG_ID_GIMBAL_DEVICE_ATTITUDE_STATUS" << std::endl;
+		break;
 	// =====  DEFAULT ==================================================
 	default:
 		std::cout << mav_msg.msgid << std::endl;
 		break;
 	}
-				
 }
