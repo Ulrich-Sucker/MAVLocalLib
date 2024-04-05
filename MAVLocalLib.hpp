@@ -6,7 +6,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.01.005"
+#define MAVLocalLib_hpp_Version "00.01.006"
 // =====================================================================================
 #pragma endregion
 
@@ -67,6 +67,9 @@ udpReceive()
 udpSend()
 mavPrint()
 */
+
+void initMAVmessages();
+
 void mavPrint(std::string text);
 void mavPrint(char* text);
 void mavPrint(int text);

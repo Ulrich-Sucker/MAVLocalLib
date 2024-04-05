@@ -6,13 +6,22 @@
 // 	Version 00.00 - 2024-02-27
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.01.008"
+#define MAVLocalLib_CPP_Version "00.01.009"
 // =====================================================================================
 #pragma endregion
 
 /* ---- include Header ----------------------------------------------------------------- */ 
 #include "MAVLocalLib.hpp"
 
+
+// ==== FUNCTION: initMAVmessages =============================================================
+void initMAVmessages()
+{
+	for (int i = 0; i < mavMsgCnt; i++){
+		mavMessages[i].printLong = false;
+		mavMessages[i].printShort = false;
+	}
+};
 
 // ==== FUNCTION: mavPrint =============================================================
 void mavPrint(std::string text){
@@ -146,9 +155,7 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
             }
             mavPrint((char *)"type         : "); mavPrintLn(hb.type);
             mavPrint((char *)"autopilot    : "); mavPrintLn(hb.autopilot);
-            mavPrint((char *)"system_status: "); mavPrintLn(hb.system_status);
-            //mavPrintLn((char *)"");
-          	
+            mavPrint((char *)"system_status: "); mavPrintLn(hb.system_status);     	
 		}
 		break;
 		
@@ -201,7 +208,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 */            
             mavPrint((char *)"battery_remaining: "); 
             mavPrintLn(sys_status.battery_remaining);			
-
 		}
 		break;
 		
@@ -213,7 +219,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#002:  MAVLINK_MSG_ID_SYSTEM_TIME");
 		}		
-		//std::cout << "#002:  MAVLINK_MSG_ID_SYSTEM_TIME  " << std::endl;
 		break;
 		
 	// =====  #21 MAVLINK_MSG_ID_PARAM_REQUEST_LIST ====================
@@ -277,7 +282,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
             mavPrint((char *)"param_type:    ");
             mavPrintLn(param_set.param_type);			
 		}		
-		//std::cout << "#023:  MAVLINK_MSG_ID_PARAM_SET" << std::endl;
 		break;
 		
 	// =====  #24 MAVLINK_MSG_ID_GPS_RAW_INT ===========================
@@ -361,7 +365,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW");
 		}
-		//std::cout << "#036:  MAVLINK_MSG_ID_SERVO_OUTPUT_RAW" << std::endl;
 		break;
 		
 	// =====  #42: MAVLINK_MSG_ID_MISSION_CURRENT ======================
@@ -372,7 +375,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#042:  MAVLINK_MSG_ID_MISSION_CURRENT");
 		}
-		//std::cout << "#042:  MAVLINK_MSG_ID_MISSION_CURRENT" << std::endl;
 		break;
 		
 	// =====  #49: MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN ====================
@@ -383,7 +385,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN");
 		}
-		//std::cout << "#049:  MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN" << std::endl;
 		break;
 		
 	// =====  #62: MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT ================
@@ -394,7 +395,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT");
 		}
-		//std::cout << "#062:  MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT" << std::endl;
 		break;
 		
 	// =====  #65: MAVLINK_MSG_ID_RC_CHANNELS ==========================
@@ -427,7 +427,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
             mavPrint((char *)"RC Channel 17:    "); mavPrintLn(rc_channels.chan17_raw);
             mavPrint((char *)"RC Channel 18:    "); mavPrintLn(rc_channels.chan18_raw);
 		}
-		//std::cout << "#065:  MAVLINK_MSG_ID_RC_CHANNELS" << std::endl;
 		break;
 		
 	// =====  #66: MAVLINK_MSG_ID_REQUEST_DATA_STREAM ==================
@@ -438,7 +437,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM");
 		}
-		//std::cout << "#066:  MAVLINK_MSG_ID_REQUEST_DATA_STREAM" << std::endl;
 		break;
 		
 	// =====  #74: MAVLINK_MSG_ID_VFR_HUD ==============================
@@ -459,34 +457,20 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#076:  MAVLINK_MSG_ID_COMMAND_LONG");
             mavlink_command_long_t command_long;
-            mavlink_msg_command_long_decode(&mav_msg, &command_long);
+            mavlink_msg_command_long_decode(&mav_msg, &command_long);		
 
-			//               "------------------------------- : "			
-
-            mavPrint((char *)"target_system    : ");
-            mavPrintLn(command_long.target_system);
-            mavPrint((char *)"target_component : ");
-            mavPrintLn(command_long.target_component);
-            mavPrint((char *)"command          : ");
-            mavPrintLn(command_long.command);
-            mavPrint((char *)"confirmation     : ");
-            mavPrintLn(command_long.confirmation);
-            mavPrint((char *)"param1           : ");
-            mavPrintLn(command_long.param1);
-            mavPrint((char *)"param2           : ");
-            mavPrintLn(command_long.param2);
-            mavPrint((char *)"param3           : ");
-            mavPrintLn(command_long.param3);
-            mavPrint((char *)"param4           : ");
-            mavPrintLn(command_long.param4);
-            mavPrint((char *)"param5: ");
-            mavPrintLn(command_long.param5);
-            mavPrint((char *)"param6: ");
-            mavPrintLn(command_long.param6);
-            mavPrint((char *)"param7: ");
-            mavPrintLn(command_long.param7);			
+            mavPrint((char *)"target_system    : "); mavPrintLn(command_long.target_system);
+            mavPrint((char *)"target_component : "); mavPrintLn(command_long.target_component);
+            mavPrint((char *)"command          : "); mavPrintLn(command_long.command);
+            mavPrint((char *)"confirmation     : "); mavPrintLn(command_long.confirmation);
+            mavPrint((char *)"param1           : "); mavPrintLn(command_long.param1);
+            mavPrint((char *)"param2           : "); mavPrintLn(command_long.param2);
+            mavPrint((char *)"param3           : "); mavPrintLn(command_long.param3);
+            mavPrint((char *)"param4           : "); mavPrintLn(command_long.param4);
+            mavPrint((char *)"param5           : "); mavPrintLn(command_long.param5);
+            mavPrint((char *)"param6           : "); mavPrintLn(command_long.param6);
+            mavPrint((char *)"param7           : "); mavPrintLn(command_long.param7);			
 		}
-		//std::cout << "#076:  MAVLINK_MSG_ID_COMMAND_LONG" << std::endl;
 		break;
 		
 	// =====  #87: MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT ===========
@@ -588,7 +572,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#111:  MAVLINK_MSG_ID_TIMESYNC");
 		}
-		//std::cout << "#111:  MAVLINK_MSG_ID_TIMESYNC" << std::endl;
 		break;
 		
 	// =====  #116: MAVLINK_MSG_ID_SCALED_IMU2 =========================
@@ -599,7 +582,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#116:  MAVLINK_MSG_ID_SCALED_IMU2");
 		}
-		//std::cout << "#116:  MAVLINK_MSG_ID_SCALED_IMU2" << std::endl;
 		break;
 		
 	// =====  #125: MAVLINK_MSG_ID_POWER_STATUS ========================
@@ -610,7 +592,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#125:  MAVLINK_MSG_ID_POWER_STATUS");
 		}
-		//std::cout << "#125:  MAVLINK_MSG_ID_POWER_STATUS" << std::endl;
 		break;
 		
 	// =====  #129: AVLINK_MSG_ID_SCALED_IMU3 ==========================
@@ -621,7 +602,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#129:  AVLINK_MSG_ID_SCALED_IMU3");
 		}
-		//std::cout << "#129:  AVLINK_MSG_ID_SCALED_IMU3" << std::endl;
 		break;
 		
 	// =====  #136: MAVLINK_MSG_ID_TERRAIN_REPORT ======================
@@ -632,7 +612,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#136:  MAVLINK_MSG_ID_TERRAIN_REPORT");
 		}
-		//std::cout << "#136:  MAVLINK_MSG_ID_TERRAIN_REPORT" << std::endl;
 		break;
 		
 	// =====  #137: MAVLINK_MSG_ID_SCALED_PRESSURE2 ====================
@@ -643,7 +622,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2");
 		}
-		//std::cout << "#137:  MAVLINK_MSG_ID_SCALED_PRESSURE2" << std::endl;
 		break;
 		
 	// =====  #147: MAVLINK_MSG_ID_BATTERY_STATUS ======================
@@ -805,7 +783,6 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		if (prntLng) {
             mavPrintLn((char *)"\n#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT");
 		}
-		//std::cout << "#251:  MAVLINK_MSG_ID_NAMED_VALUE_FLOAT" << std::endl;
 		break;
 		
 	// =====  #253: MAVLINK_MSG_ID_STATUSTEXT ==========================
