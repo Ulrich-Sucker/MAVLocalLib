@@ -6,7 +6,7 @@
 // 	Version 00.00 - 2024-02-27
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.01.009"
+#define MAVLocalLib_CPP_Version "00.01.010"
 // =====================================================================================
 #pragma endregion
 
@@ -44,6 +44,93 @@ void mavPrintLn(char* text){
 void mavPrintLn(int  text){
 	std::cout << text <<std::endl;
 };
+
+// ==== CLASS: UDPConnect ==============================================================
+UDPConnect::UDPConnect() {
+	// initialise winsock
+	printf("Initialising Winsock...");
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+		printf("Failed. Error Code: %d", WSAGetLastError());
+		exit(0);
+	}
+	printf("Initialised.\n");
+
+	// create a socket
+	if ((server_socket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+		printf("Could not create socket: %d", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
+	printf("Socket created.\n");
+
+	// prepare the sockaddr_in structure
+	server.sin_family = AF_INET;
+	server.sin_addr.s_addr = INADDR_ANY;
+	server.sin_port = htons(PORT);
+
+	// bind
+	if (bind(server_socket, (sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) {
+		printf("Bind failed with error code: %d", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
+	puts("Bind done.");
+}
+
+UDPConnect::~UDPConnect() {
+	closesocket(server_socket);
+	WSACleanup();
+}
+
+bool UDPConnect::receiveMAVmesg() 
+{
+	printf("Waiting for data...");
+	while (!exitRequested) {
+		fflush(stdout);
+		char message[BUFLEN] = {};
+
+		// try to receive some data, this is a blocking call
+		int message_len;
+		int slen = sizeof(sockaddr_in);
+
+		/* somewhere after your sendto, or your first recv */
+		fd_set recv_set;
+		timeval tv = {0, 10}; /* one second */
+		FD_ZERO(&recv_set);
+		FD_SET(server_socket, &recv_set);
+
+		while (select(0, &recv_set, NULL, NULL, &tv) > 0)
+		{
+			/* recv... */
+			FD_SET(server_socket, &recv_set); /* actually redundant, since it is already set */
+			
+			if ((message_len = recvfrom(server_socket, message, BUFLEN, 0, (sockaddr*)&client, &slen)) == SOCKET_ERROR) {
+				printf("recvfrom() failed with error code: %d", WSAGetLastError());
+				exit(0);
+			};
+			// print details of the client/peer and the data received
+			/*
+			printf("Received packet from %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
+			printf("Length: %i\t Data: %s", message_len, message);
+			printf("\n");
+			*/
+			for (int p = 0; p <= message_len;p++)
+			{
+				uint8_t receive_char = message[p];
+				if (mavlink_parse_char(MAVLINK_COMM_0,
+									receive_char,
+									&mav_msg,
+									&mav_msg_status)) 
+				{
+					//printf("%i\n", mav_msg.msgid);
+					return true;
+				}
+			}
+		}
+		// printf(" .");
+	}
+}
+
+
+
 
 // ==== FUNCTION: printMAVlinkMessage ==================================================
 void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)

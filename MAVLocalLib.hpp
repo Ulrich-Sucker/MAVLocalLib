@@ -3,10 +3,14 @@
 // 	File Name:	MAVLocalLib.hpp
 //	Author:		Ulrich Sucker      
 // -------------------------------------------------------------------------------------
+// 	Version 00.02 - 2024-04-07
+//   - Class
+// 
+// -------------------------------------------------------------------------------------
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.01.006"
+#define MAVLocalLib_hpp_Version "00.02.007"
 // =====================================================================================
 #pragma endregion
 
@@ -18,6 +22,11 @@
 // ---- include global libs ------------------------------------------------------------ */
 #include "..\c_library_v2\common\mavlink.h"
 #include "..\c_library_v2\common\common.h"
+
+/* ---- include local libs ------------------------------------------------------------- */
+// #include "c:\Development\MavLinkProjects\udpMAVTest\lib\MAVLocalLib\MAVLocalLib.cpp" 
+// #include "..\lib\MAVLocalLib\MAVLocalLib.cpp"
+
 
 struct ApParameter
 {
@@ -37,17 +46,21 @@ struct ApParameter
 mavlink_message_t mav_msg;			// DIE globale Variable mit der MAVLink-Nachricht
 mavlink_status_t mav_msg_status;	// DER MAVLINK-Status
 
-unsigned long last_heartbeat     = 0;
-unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
-
 struct mavMessage {
 	bool printShort = false;
 	bool printLong = false;
 	bool used = false;
 };
-
 #define mavMsgCnt 285
 mavMessage mavMessages[mavMsgCnt];
+
+/* =========================================================================== */
+//      Remote MAVLink Device (Drone)
+/* =========================================================================== */
+unsigned long last_heartbeat     = 0;
+unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
+
+
 
 /* =========================================================================== */
 //      Remote MAVLink Device (Drone)
@@ -55,9 +68,31 @@ mavMessage mavMessages[mavMsgCnt];
 uint8_t target_system    = 1;
 uint8_t target_component = 1;
 
+/* =========================================================================== */
+//      CLASSES Prototyps
+/* =========================================================================== */
+
+#define BUFLEN 512
+#define PORT 14552
+
+class UDPConnect {
+
+private:
+    WSADATA wsa;
+    SOCKET server_socket;
+    sockaddr_in server, client;
+    bool exitRequested = false;
+public:
+	explicit UDPConnect();
+	~UDPConnect();
+	bool receiveMAVmesg();
+    
+    
+
+};
 
 /* =========================================================================== */
-//      Funktion Prototyps
+//      FUNCTIONS Prototyps
 /* =========================================================================== */
 
 /*
@@ -79,6 +114,4 @@ void mavPrintLn(char* text);
 void mavPrintLn(int text);
 
 void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng);
-
-
-
+void mvPrintParameter(mavlink_param_value_t param_value); 
