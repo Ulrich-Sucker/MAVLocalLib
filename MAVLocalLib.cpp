@@ -3,10 +3,17 @@
 // 	File Name:	MAVLocalLib.cpp
 //	Author:		Ulrich Sucker      
 // -------------------------------------------------------------------------------------
-// 	Version 00.00 - 2024-02-27
+// 	Version 00.02 - 2024-04-07
+//   - Class UDPConnectSrvr
+//		DPConnectSrvr::UDPConnectSrvr(int UDPport)
+//		UDPConnectSrvr::~UDPConnectSrvr()
+//		bool UDPConnectSrvr::RecMAVmsg()
+//
+// -------------------------------------------------------------------------------------
+// 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.01.010"
+#define MAVLocalLib_CPP_Version "00.02.011"
 // =====================================================================================
 #pragma endregion
 
@@ -45,8 +52,10 @@ void mavPrintLn(int  text){
 	std::cout << text <<std::endl;
 };
 
-// ==== CLASS: UDPConnect ==============================================================
-UDPConnect::UDPConnect() {
+/* ==== CLASS: UDPConnectSrvr ==============================================================
+	This function creates a server socket
+*/
+UDPConnectSrvr::UDPConnectSrvr(int UDPport) {
 	// initialise winsock
 	printf("Initialising Winsock...");
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
@@ -65,7 +74,7 @@ UDPConnect::UDPConnect() {
 	// prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
 	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(PORT);
+	server.sin_port = htons(UDPport);
 
 	// bind
 	if (bind(server_socket, (sockaddr*)&server, sizeof(server)) == SOCKET_ERROR) {
@@ -75,30 +84,27 @@ UDPConnect::UDPConnect() {
 	puts("Bind done.");
 }
 
-UDPConnect::~UDPConnect() {
+UDPConnectSrvr::~UDPConnectSrvr() {
 	closesocket(server_socket);
 	WSACleanup();
 }
 
-bool UDPConnect::receiveMAVmesg() 
-{
-	printf("Waiting for data...");
+bool UDPConnectSrvr::RecMAVmsg() {
 	while (!exitRequested) {
-		fflush(stdout);
+		// Define receive buffer 
 		char message[BUFLEN] = {};
 
 		// try to receive some data, this is a blocking call
 		int message_len;
 		int slen = sizeof(sockaddr_in);
 
-		/* somewhere after your sendto, or your first recv */
+		// Create a nonblocking request
 		fd_set recv_set;
-		timeval tv = {0, 10}; /* one second */
+		timeval tv = {0, 10}; // 10usec
 		FD_ZERO(&recv_set);
 		FD_SET(server_socket, &recv_set);
 
-		while (select(0, &recv_set, NULL, NULL, &tv) > 0)
-		{
+		while (select(0, &recv_set, NULL, NULL, &tv) > 0) {
 			/* recv... */
 			FD_SET(server_socket, &recv_set); /* actually redundant, since it is already set */
 			
@@ -106,31 +112,32 @@ bool UDPConnect::receiveMAVmesg()
 				printf("recvfrom() failed with error code: %d", WSAGetLastError());
 				exit(0);
 			};
-			// print details of the client/peer and the data received
-			/*
+
+			/* print details of the client/peer and the data received
 			printf("Received packet from %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
 			printf("Length: %i\t Data: %s", message_len, message);
 			printf("\n");
 			*/
-			for (int p = 0; p <= message_len;p++)
-			{
+			// try to decode the message char by char
+			for (int p = 0; p <= message_len;p++) {
 				uint8_t receive_char = message[p];
 				if (mavlink_parse_char(MAVLINK_COMM_0,
 									receive_char,
 									&mav_msg,
-									&mav_msg_status)) 
-				{
-					//printf("%i\n", mav_msg.msgid);
-					return true;
+									&mav_msg_status)) {
+					return true; 	// Return "true" if success. 
+									// The result can be found in the globel variables "mav_msg" and "mav_msg_status"
 				}
 			}
 		}
-		// printf(" .");
 	}
+	return false;
 }
 
+bool UDPConnectSrvr::SndMAVmsg()
+{
 
-
+}
 
 // ==== FUNCTION: printMAVlinkMessage ==================================================
 void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
@@ -177,68 +184,68 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 			case 3:
 				mavPrintLn((char *)"Training");
 			  break;
-			  case 5:
+			case 5:
 				mavPrintLn((char *)"FBWA");
-	          break;
-              case 6:
+	        	break;
+            case 6:
                 mavPrintLn((char *)"FBWB");
-              break;
-              case 7:
+            	break;
+            case 7:
                 mavPrintLn((char *)"Cruise");
-              break;
-              case 8:
+            	break;
+            case 8:
                 mavPrintLn((char *)"AUTOTUNE");
-              break;
-              case 10:
+            	break;
+            case 10:
                 mavPrintLn((char *)"Auto");
-              break;
-              case 11:
+            	break;
+            case 11:
                 mavPrintLn((char *)"RTL");
-              break;
-              case 12:
+            	break;
+            case 12:
                 mavPrintLn((char *)"Loiter");
-              break;
-              case 13:
+            	break;
+            case 13:
                 mavPrintLn((char *)"Take Off");
-              break;
-              case 14:
+            	break;
+            case 14:
                 mavPrintLn((char *)"Avoid ADSB");
-              break;
-              case 15:
+            	break;
+            case 15:
                 mavPrintLn((char *)"Guided");
-              break;
-              case 17:
+            	 break;
+            case 17:
                 mavPrintLn((char *)"QStabilize");
-              break;
-              case 18:
+            	break;
+            case 18:
                 mavPrintLn((char *)"QHover");
-              break;
-              case 19:
+            	break;
+            case 19:
                 mavPrintLn((char *)"QLoiter");
-              break;
-              case 20:
+            	break;
+            case 20:
                 mavPrintLn((char *)"QLand");
-              break;
-              case 21:
+            	break;
+            case 21:
                 mavPrintLn((char *)"QRTL");
-              break;
-              case 22:
+            	break;
+            case 22:
                 mavPrintLn((char *)"QAutoTune");
-              break;
-              case 23:
+            	break;
+            case 23:
                 mavPrintLn((char *)"QAcro");
-              break;
-              case 24:
+            	break;
+            case 24:
                 mavPrintLn((char *)"Thermal");
-              break;
-              case 25:
+            	break;
+            case 25:
                 mavPrintLn((char *)"Loiter to QLand");
-              break;
-              default:
+            	break;
+            default:
                 mavPrint((char *)"Mode "); 
                 mavPrint(hb.custom_mode); 
                 mavPrintLn((char *)" not known");
-              break;
+            	break;
             }
             mavPrint((char *)"type         : "); mavPrintLn(hb.type);
             mavPrint((char *)"autopilot    : "); mavPrintLn(hb.autopilot);
