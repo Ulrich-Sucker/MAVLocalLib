@@ -13,7 +13,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.02.011"
+#define MAVLocalLib_CPP_Version "00.02.012"
 // =====================================================================================
 #pragma endregion
 
@@ -52,9 +52,9 @@ void mavPrintLn(int  text){
 	std::cout << text <<std::endl;
 };
 
-/* ==== CLASS: UDPConnectSrvr ==============================================================
+/* ==== CLASS: UDPConnectSrvr ============================================================== *
 	This function creates a server socket
-*/
+ * ========================================================================================= */
 UDPConnectSrvr::UDPConnectSrvr(int UDPport) {
 	// initialise winsock
 	printf("Initialising Winsock...");
@@ -184,68 +184,68 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 			case 3:
 				mavPrintLn((char *)"Training");
 			  break;
-			case 5:
+			  case 5:
 				mavPrintLn((char *)"FBWA");
-	        	break;
-            case 6:
+	          break;
+              case 6:
                 mavPrintLn((char *)"FBWB");
-            	break;
-            case 7:
+              break;
+              case 7:
                 mavPrintLn((char *)"Cruise");
-            	break;
-            case 8:
+              break;
+              case 8:
                 mavPrintLn((char *)"AUTOTUNE");
-            	break;
-            case 10:
+              break;
+              case 10:
                 mavPrintLn((char *)"Auto");
-            	break;
-            case 11:
+              break;
+              case 11:
                 mavPrintLn((char *)"RTL");
-            	break;
-            case 12:
+              break;
+              case 12:
                 mavPrintLn((char *)"Loiter");
-            	break;
-            case 13:
+              break;
+              case 13:
                 mavPrintLn((char *)"Take Off");
-            	break;
-            case 14:
+              break;
+              case 14:
                 mavPrintLn((char *)"Avoid ADSB");
-            	break;
-            case 15:
+              break;
+              case 15:
                 mavPrintLn((char *)"Guided");
-            	 break;
-            case 17:
+              break;
+              case 17:
                 mavPrintLn((char *)"QStabilize");
-            	break;
-            case 18:
+              break;
+              case 18:
                 mavPrintLn((char *)"QHover");
-            	break;
-            case 19:
+              break;
+              case 19:
                 mavPrintLn((char *)"QLoiter");
-            	break;
-            case 20:
+              break;
+              case 20:
                 mavPrintLn((char *)"QLand");
-            	break;
-            case 21:
+              break;
+              case 21:
                 mavPrintLn((char *)"QRTL");
-            	break;
-            case 22:
+              break;
+              case 22:
                 mavPrintLn((char *)"QAutoTune");
-            	break;
-            case 23:
+              break;
+              case 23:
                 mavPrintLn((char *)"QAcro");
-            	break;
-            case 24:
+              break;
+              case 24:
                 mavPrintLn((char *)"Thermal");
-            	break;
-            case 25:
+              break;
+              case 25:
                 mavPrintLn((char *)"Loiter to QLand");
-            	break;
-            default:
+              break;
+              default:
                 mavPrint((char *)"Mode "); 
                 mavPrint(hb.custom_mode); 
                 mavPrintLn((char *)" not known");
-            	break;
+              break;
             }
             mavPrint((char *)"type         : "); mavPrintLn(hb.type);
             mavPrint((char *)"autopilot    : "); mavPrintLn(hb.autopilot);

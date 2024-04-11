@@ -13,7 +13,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.02.008"
+#define MAVLocalLib_hpp_Version "00.02.009"
 // =====================================================================================
 #pragma endregion
 
@@ -21,6 +21,11 @@
 // ---- include public libs ------------------------------------------------------------ */
 #include <iostream>
 #include <string>
+#include <winsock2.h>
+using namespace std;
+
+#pragma comment(lib,"ws2_32.lib") // Winsock Library
+#pragma warning(disable:4996) 
 
 // ---- include global libs ------------------------------------------------------------ */
 #include "..\c_library_v2\common\mavlink.h"
@@ -74,7 +79,8 @@ uint8_t target_component = 1;
 //      CLASSES Prototyps
 /* =========================================================================== */
 #define BUFLEN 512
-// #define PORT 14552
+#define DEFAULT_UDP_PORT 14552
+int UDPport;
 
 class UDPConnectSrvr {
 private:
@@ -111,4 +117,4 @@ void mavPrintLn(char* text);
 void mavPrintLn(int text);
 
 void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng);
-void mavPrintParameter(mavlink_param_value_t param_value); 
+//void mavPrintParameter(mavlink_param_value_t param_value); 
