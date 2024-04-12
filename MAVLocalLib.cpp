@@ -1,7 +1,11 @@
 ﻿#pragma region Docs
 // ====================================================================================
-// 	File Name:	MAVLocalLib.cpp
+// 	File Name:	MAVLocalLib.cpp	MAVLINK_MSG_ID_COMMAND_ACK 
 //	Author:		Ulrich Sucker      
+// -------------------------------------------------------------------------------------
+// 	Version 00.03 - 2024-04-011
+//   - MAVLINK_MSG_ID_COMMAND_ACK
+//
 // -------------------------------------------------------------------------------------
 // 	Version 00.02 - 2024-04-07
 //   - Class UDPConnectSrvr
@@ -13,7 +17,7 @@
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.02.012"
+#define MAVLocalLib_CPP_Version "00.03.013"
 // =====================================================================================
 #pragma endregion
 
@@ -566,7 +570,48 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
             mavPrint((char *)"param7           : "); mavPrintLn(command_long.param7);			
 		}
 		break;
-		
+
+	// =====  #77: MAVLINK_MSG_ID_COMMAND_ACK  ==============================
+	/*
+	* @brief Decode a command_ack message into a struct
+	*
+	* @param msg The message to decode
+	* @param command_ack C-struct to decode the message contents into
+	*
+	static inline void mavlink_msg_command_ack_decode(const mavlink_message_t* msg, mavlink_command_ack_t* command_ack)
+	{
+	#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
+		command_ack->command = mavlink_msg_command_ack_get_command(msg);
+		command_ack->result = mavlink_msg_command_ack_get_result(msg);
+		command_ack->progress = mavlink_msg_command_ack_get_progress(msg);
+		command_ack->result_param2 = mavlink_msg_command_ack_get_result_param2(msg);
+		command_ack->target_system = mavlink_msg_command_ack_get_target_system(msg);
+		command_ack->target_component = mavlink_msg_command_ack_get_target_component(msg);
+	#else
+			uint8_t len = msg->len < MAVLINK_MSG_ID_COMMAND_ACK_LEN? msg->len : MAVLINK_MSG_ID_COMMAND_ACK_LEN;
+			memset(command_ack, 0, MAVLINK_MSG_ID_COMMAND_ACK_LEN);
+		memcpy(command_ack, _MAV_PAYLOAD(msg), len);
+	#endif
+	}
+	*/
+	case MAVLINK_MSG_ID_COMMAND_ACK:
+		if (prntSrt) {
+			mavPrintLn((char *)"#077:  MAVLINK_MSG_ID_COMMAND_ACK ");
+		}
+		if (prntLng) {
+            mavPrintLn((char *)"\n#077:  MAVLINK_MSG_ID_COMMAND_ACK ");
+			mavlink_command_ack_t* command_ack;
+            //mavlink_msg_command_ack_decode(&mav_msg, command_ack);
+			
+			mavPrint((char *)" Command          : "); mavPrintLn(mavlink_msg_command_ack_get_command(&mav_msg));
+			mavPrint((char *)" Result           : "); mavPrintLn(mavlink_msg_command_ack_get_result(&mav_msg));
+			mavPrint((char *)" Progress         : "); mavPrintLn(mavlink_msg_command_ack_get_progress(&mav_msg));
+			mavPrint((char *)" Result Param2    : "); mavPrintLn(mavlink_msg_command_ack_get_result_param2(&mav_msg));
+			mavPrint((char *)" Target System    : "); mavPrintLn(mavlink_msg_command_ack_get_target_system(&mav_msg));
+			mavPrint((char *)" Target Component : "); mavPrintLn(mavlink_msg_command_ack_get_target_component(&mav_msg));
+		}
+		break;	
+
 	// =====  #87: MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT ===========
 	/*
 	 * @brief Decode a position_target_global_int message into a struct
@@ -904,7 +949,7 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
 		break;
 	// =====  DEFAULT ==================================================
 	default:
-		std::cout << "New Message ID: " << mav_msg.msgid << std::endl;
+		std::cout << ">>> New Message ID: " << mav_msg.msgid << " <<<" << std::endl;
 		break;
 	}
 }
