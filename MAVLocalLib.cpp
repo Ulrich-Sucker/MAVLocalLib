@@ -1,23 +1,28 @@
 ﻿#pragma region Docs
 // ====================================================================================
-// 	File Name:	MAVLocalLib.cpp	MAVLINK_MSG_ID_COMMAND_ACK 
+// 	File Name:	MAVLocalLib.cpp
 //	Author:		Ulrich Sucker      
 // -------------------------------------------------------------------------------------
-// 	Version 00.03 - 2024-04-011
+// 	Version 00.05 - 2024-04-17
+//   - HardBeat-Anzeige mit ausfühlichen Informationen verbessert
+//   - Header-Dateien mit MAVlink-Daten eingebunden
+// -------------------------------------------------------------------------------------
+// 	Version 00.04 - 2024-04-15
+//   - Support of different devices
+// -------------------------------------------------------------------------------------
+// 	Version 00.03 - 2024-04-11
 //   - added: MAVLINK_MSG_ID_COMMAND_ACK
-//
 // -------------------------------------------------------------------------------------
 // 	Version 00.02 - 2024-04-07
 //   - Class UDPConnectSrvr
 //		DPConnectSrvr::UDPConnectSrvr(int UDPport)
 //		UDPConnectSrvr::~UDPConnectSrvr()
 //		bool UDPConnectSrvr::RecMAVmsg()
-//
 // -------------------------------------------------------------------------------------
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_CPP_Version "00.03.014"
+#define MAVLocalLib_CPP_Version "00.05.015"
 // =====================================================================================
 #pragma endregion
 
@@ -54,6 +59,30 @@ void mavPrintLn(char* text){
 };
 void mavPrintLn(int  text){
 	std::cout << text <<std::endl;
+};
+
+// ---- FUNCTION recMAVEntityHeardBeat ----------------------------------------------------
+void recMAVEntityHeardBeat(int sysID_, int compID_) {
+	bool MAVentityExists = false;
+
+	// in den gespeicherten Entities suchen
+	for (int Pointer = 0; Pointer < mavEntityCnt; Pointer++){
+		if ((MAVentities[Pointer].sysID == sysID_) && (MAVentities[Pointer].compID == compID_)) {
+			MAVentityExists = true;
+			MAVentities[Pointer].LastRecHeartbeat = clock();
+			return;
+		}
+	};
+	// neue Entity anlegen
+	MAVentities[mavEntityCnt].sysID = sysID_;
+	MAVentities[mavEntityCnt].compID = compID_;
+	MAVentities[mavEntityCnt].LastRecHeartbeat = clock();
+	mavEntityCnt++;
+};
+
+// ---- FUNCTION listMAVEntties ------------------------------------------------------------
+void listMAVEntties() {
+	
 };
 
 /* ==== CLASS: UDPConnectSrvr ============================================================== *
@@ -123,7 +152,7 @@ bool UDPConnectSrvr::RecMAVmsg() {
 			printf("\n");
 			*/
 			// try to decode the message char by char
-			for (int p = 0; p <= message_len;p++) {
+			for (int p = 0; p <= message_len; p++) {
 				uint8_t receive_char = message[p];
 				if (mavlink_parse_char(MAVLINK_COMM_0,
 									receive_char,
@@ -251,9 +280,19 @@ void printMAVlinkMessage(mavlink_message_t mav_msg, bool prntSrt, bool prntLng)
                 mavPrintLn((char *)" not known");
               break;
             }
-            mavPrint((char *)"type         : "); mavPrintLn(hb.type);
-            mavPrint((char *)"autopilot    : "); mavPrintLn(hb.autopilot);
-            mavPrint((char *)"system_status: "); mavPrintLn(hb.system_status);     	
+			// ---- Print Type ---------------------------------------------------------
+            mavPrint((char *)"Type         : "); mavPrint(hb.type);
+			mavPrint((char *)": ");			mavPrintLn((char *)MAV_TYPE_DATA[(int)hb.type].Function);
+
+			// ---- Print Autopilot ----------------------------------------------------
+            mavPrint((char *)"Autopilot    : "); mavPrint(hb.autopilot);
+			mavPrint((char *)": ");			mavPrintLn((char *)MAV_AUTOPILOT_DATA[(int)hb.autopilot].Function);
+
+			// ---- System Status ------------------------------------------------------
+            mavPrint((char *)"system_status: "); mavPrint(hb.system_status); 
+			mavPrint((char *)": ");			     mavPrintLn((char *)MAV_STATE_DATA[(int)hb.system_status].Function);
+
+			// *** recMAVEntityHeardBeat(sysID_, compID_)
 		}
 		break;
 		

@@ -3,17 +3,23 @@
 // 	File Name:	MAVLocalLib.hpp
 //	Author:		Ulrich Sucker      
 // -------------------------------------------------------------------------------------
+// 	Version 00.04 - 2024-04-17
+//   - HardBeat-Anzeige mit ausfühlichen Informationen verbessert
+//   - Header-Dateien mit MAVlink-Daten eingebunden
+// -------------------------------------------------------------------------------------
+// 	Version 00.03 - 2024-04-15
+//   - Support of different devices
+// -------------------------------------------------------------------------------------
 // 	Version 00.02 - 2024-04-07
 //   - Class UDPConnectSrvr
 //		DPConnectSrvr::UDPConnectSrvr(int UDPport)
 //		UDPConnectSrvr::~UDPConnectSrvr()
 //		bool UDPConnectSrvr::RecMAVmsg()
-//
 // -------------------------------------------------------------------------------------
 // 	Version 00.01 - 2024-03-18
 //   - Base
 // -------------------------------------------------------------------------------------
-#define MAVLocalLib_hpp_Version "00.02.009"
+#define MAVLocalLib_hpp_Version "00.04.010"
 // =====================================================================================
 #pragma endregion
 
@@ -34,6 +40,9 @@ using namespace std;
 /* ---- include local libs ------------------------------------------------------------- */
 // #include "c:\Development\MavLinkProjects\udpMAVTest\lib\MAVLocalLib\MAVLocalLib.cpp" 
 // #include "..\lib\MAVLocalLib\MAVLocalLib.cpp"
+#include "mav_type.hpp"
+#include "mav_autopilot.hpp"
+#include "mav_state.hpp"
 
 
 struct ApParameter
@@ -64,13 +73,26 @@ struct mavMessage {                 // Struktur für Infos für einen Nachrichte
 mavMessage mavMessages[mavMsgCnt];  // Array mit Infos für einzelne Nachrichten
 
 /* =========================================================================== */
-//      Remote MAVLink Device (Drone)
+//      Remote MAVLink Devices (Drone)
 /* =========================================================================== */
+struct MAVentity { 
+	int sysID;
+	int compID;
+	long LastRecHeartbeat = 0;
+};
+
+#define MAVENTITYCNT 32
+MAVentity MAVentities[MAVENTITYCNT]; // Array zur Speicherung aller Heardbeat Sender
+unsigned int mavEntityCnt = 0;
+
+void recMAVEntityHeardBeat(int sysID_, int compID_);   // Funktion zur Speicherung eines empfangenen HBs
+void listMAVEntties();
+
 unsigned long last_heartbeat     = 0;
 unsigned long heartbeat_interval = 2000;                  // Zeitraum, in dem ein Heard-Beat empfangen werden soll
 
 /* =========================================================================== */
-//      Remote MAVLink Device (Drone)
+//      Local MAVLink Device (Ground Station)
 /* =========================================================================== */
 uint8_t target_system    = 1;
 uint8_t target_component = 1;
